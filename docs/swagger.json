@@ -1,0 +1,165 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "contact": {}
+    },
+    "paths": {
+        "/genimg/check": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "ai-router"
+                ],
+                "summary": "获取状态",
+                "parameters": [
+                    {
+                        "description": "请求参数",
+                        "name": "create",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/request_object.CheckStatusReq"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/view_object.GenerateResp"
+                        }
+                    }
+                }
+            }
+        },
+        "/genimg/txt2img": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "ai-router"
+                ],
+                "summary": "文生图",
+                "parameters": [
+                    {
+                        "description": "请求参数",
+                        "name": "create",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/request_object.GenerateReq"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/view_object.GenerateResp"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "request_object.CheckStatusReq": {
+            "type": "object",
+            "required": [
+                "job_id"
+            ],
+            "properties": {
+                "job_id": {
+                    "description": "任务ID",
+                    "type": "string"
+                }
+            }
+        },
+        "request_object.GenerateReq": {
+            "type": "object",
+            "properties": {
+                "async": {
+                    "description": "是否异步",
+                    "type": "boolean"
+                },
+                "input": {
+                    "type": "object",
+                    "required": [
+                        "prompt"
+                    ],
+                    "properties": {
+                        "height": {
+                            "description": "高 px",
+                            "type": "integer"
+                        },
+                        "image_url": {
+                            "description": "用于图生图的图片url",
+                            "type": "string"
+                        },
+                        "prompt": {
+                            "description": "文生图描述语句",
+                            "type": "string"
+                        },
+                        "seed": {
+                            "description": "种子ID",
+                            "type": "integer"
+                        },
+                        "width": {
+                            "description": "ImageNum int    `json:\"image_num\" validate:\"omitempty,min=1,max=2\" `  // 输出数量",
+                            "type": "integer"
+                        }
+                    }
+                }
+            }
+        },
+        "view_object.GenerateResp": {
+            "type": "object",
+            "properties": {
+                "delayTime": {
+                    "description": "已执行时间",
+                    "type": "integer"
+                },
+                "executionTime": {
+                    "description": "总执行时间,Status=COMPLETED时有值",
+                    "type": "integer"
+                },
+                "id": {
+                    "description": "进程ID",
+                    "type": "string"
+                },
+                "output": {
+                    "description": "输出,Status=COMPLETED时有值",
+                    "type": "object",
+                    "properties": {
+                        "image_url": {
+                            "description": "图片路径",
+                            "type": "string"
+                        },
+                        "images": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "seed": {
+                            "type": "integer"
+                        }
+                    }
+                },
+                "status": {
+                    "description": "IN_QUEUE=队列中,IN_PROGRESS=进程中,COMPLETED=已完成",
+                    "type": "string"
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,109 @@
+definitions:
+  request_object.CheckStatusReq:
+    properties:
+      job_id:
+        description: 任务ID
+        type: string
+    required:
+    - job_id
+    type: object
+  request_object.GenerateReq:
+    properties:
+      async:
+        description: 是否异步
+        type: boolean
+      input:
+        properties:
+          height:
+            description: 高 px
+            type: integer
+          image_url:
+            description: 用于图生图的图片url
+            type: string
+          prompt:
+            description: 文生图描述语句
+            type: string
+          seed:
+            description: 种子ID
+            type: integer
+          width:
+            description: ImageNum int    `json:"image_num" validate:"omitempty,min=1,max=2" `  // 输出数量
+            type: integer
+        required:
+        - prompt
+        type: object
+    type: object
+  view_object.GenerateResp:
+    properties:
+      delayTime:
+        description: 已执行时间
+        type: integer
+      executionTime:
+        description: 总执行时间,Status=COMPLETED时有值
+        type: integer
+      id:
+        description: 进程ID
+        type: string
+      output:
+        description: 输出,Status=COMPLETED时有值
+        properties:
+          image_url:
+            description: 图片路径
+            type: string
+          images:
+            items:
+              type: string
+            type: array
+          seed:
+            type: integer
+        type: object
+      status:
+        description: IN_QUEUE=队列中,IN_PROGRESS=进程中,COMPLETED=已完成
+        type: string
+    type: object
+info:
+  contact: {}
+paths:
+  /genimg/check:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: 请求参数
+        in: body
+        name: create
+        required: true
+        schema:
+          $ref: '#/definitions/request_object.CheckStatusReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/view_object.GenerateResp'
+      summary: 获取状态
+      tags:
+      - ai-router
+  /genimg/txt2img:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: 请求参数
+        in: body
+        name: create
+        required: true
+        schema:
+          $ref: '#/definitions/request_object.GenerateReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/view_object.GenerateResp'
+      summary: 文生图
+      tags:
+      - ai-router
+swagger: "2.0"
