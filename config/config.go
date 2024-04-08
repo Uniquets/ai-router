@@ -6,6 +6,7 @@ import (
 )
 
 type Config struct {
+	Port      string       `mapstructure:"port"`
 	RunPodApi RunPodConfig `mapstructure:"runpod-api"`
 }
 

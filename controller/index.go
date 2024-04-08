@@ -2,6 +2,7 @@ package controller
 
 import (
 	"context"
+	"git.zx-tech.net/app/ait-go-app/config"
 	"github.com/gin-gonic/gin"
 	"go.uber.org/fx"
 )
@@ -11,7 +12,7 @@ var Module = fx.Options(
 	fx.Invoke(genImg),
 )
 
-func webStart(lc fx.Lifecycle) *gin.Engine {
+func webStart(lc fx.Lifecycle, conf *config.Config) *gin.Engine {
 	r := gin.Default()
 	r.GET("/ping", func(c *gin.Context) {
 		c.JSON(200, gin.H{
@@ -21,7 +22,7 @@ func webStart(lc fx.Lifecycle) *gin.Engine {
 	lc.Append(fx.Hook{
 		OnStart: func(ctx context.Context) error {
 			go func() {
-				r.Run() // 默认监听并在 0.0.0.0:8080 上启动服务
+				r.Run(":" + conf.Port) // 默认监听并在 0.0.0.0:8080 上启动服务
 			}()
 			return nil
 		},

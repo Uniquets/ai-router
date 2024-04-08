@@ -1,3 +1,4 @@
+port: 9999
 runpod-api:
     baseurl: https://api.runpod.ai/v2
     apikey: RE3WB88EPGK6QNDRDHMBKV8MOLLY9E9IEJ8FO9HU
