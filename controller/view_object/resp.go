@@ -3,7 +3,6 @@ package view_object
 import (
 	"errors"
 	"git.zx-tech.net/app/ait-go-app/common/business_error"
-	"git.zx-tech.net/ljhua/zerolog/log"
 )
 
 type CommonResp struct {
@@ -15,7 +14,6 @@ type CommonResp struct {
 func Resp(data interface{}) CommonResp {
 
 	if err, ok := data.(error); ok {
-		log.Err(err)
 		var busErr *business_error.BusinessError
 		if errors.As(err, &busErr) {
 			return CommonResp{
