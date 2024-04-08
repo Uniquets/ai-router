@@ -52,7 +52,7 @@ func (g GenImgController) TxtToImg(c *gin.Context) {
 	// 生成图片
 	resp, err := g.app.GenImg(c, req)
 	if err != nil {
-		c.JSON(http.StatusOK, view_object.Resp(err))
+		c.JSON(http.StatusInternalServerError, view_object.Resp(err))
 		return
 	}
 	c.JSON(http.StatusOK, view_object.Resp(resp))
@@ -85,7 +85,7 @@ func (g GenImgController) CheckStatus(c *gin.Context) {
 	// 获取状态
 	resp, err := g.app.CheckStatus(c, req)
 	if err != nil {
-		c.JSON(http.StatusOK, view_object.Resp(err))
+		c.JSON(http.StatusInternalServerError, view_object.Resp(err))
 		return
 	}
 	c.JSON(http.StatusOK, view_object.Resp(resp))
