@@ -1,6 +1,6 @@
 services:
   ai-router:  # 服务名称，可以根据你的应用程序进行更改
-    image: uniquets/ai-router:v0.1  # 使用的镜像和标签
+    image: uniquets/ai-router:latest  # 使用的镜像和标签
     ports:
       - "9999:8080"  # 将容器的 8080 端口映射到宿主机的 8080 端口
     volumes:

@@ -7,8 +7,7 @@ WORKDIR /app
 # 复制 go.mod 和 go.sum 文件到容器中，并下载依赖
 COPY go.mod ./
 COPY go.sum ./
-RUN go env -w GOPROXY=https://goprxy.cn
-RUN go mod download
+RUN go mod tidy
 
 # 复制剩余的源代码
 COPY . .
